@@ -111,9 +111,9 @@ public class Fridge
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Recipe addRecipe(String aName)
+  public Recipe addRecipe(String aName,String aDescription,String aInstruction)
   {
-    return new Recipe(aName, this);
+    return new Recipe(aName, this,aDescription,aInstruction);
   }
 
   public boolean addRecipe(Recipe aRecipe)

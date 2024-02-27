@@ -13,7 +13,9 @@ public class Recipe
 
   //Recipe Attributes
   private String name;
+  private String description;
 
+  private String instruction;
   //Recipe Associations
   private Fridge fridge;
   private List<Item> items;
@@ -22,9 +24,11 @@ public class Recipe
   // CONSTRUCTOR
   //------------------------
 
-  public Recipe(String aName, Fridge aFridge)
+  public Recipe(String aName, Fridge aFridge, String aDescription, String aInstruction)
   {
     name = aName;
+    description = aDescription;
+    instruction = aInstruction;
     boolean didAddFridge = setFridge(aFridge);
     if (!didAddFridge)
     {
@@ -44,6 +48,20 @@ public class Recipe
     wasSet = true;
     return wasSet;
   }
+  public boolean setDescription(String aDescription)
+  {
+    boolean wasSet = false;
+    description = aDescription;
+    wasSet = true;
+    return wasSet;
+  }
+  public boolean setInstruction(String aInstruction)
+  {
+    boolean wasSet = false;
+    instruction = aInstruction;
+    wasSet = true;
+    return wasSet;
+  }
 
   public String getName()
   {
@@ -54,6 +72,10 @@ public class Recipe
   {
     return fridge;
   }
+
+  public String getDescription() {return description;}
+  
+  public String getInstruction() {return instruction;}
   /* Code from template association_GetMany */
   public Item getItem(int index)
   {
