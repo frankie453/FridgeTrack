@@ -4,8 +4,8 @@ package ECSE428.Group6.FridgeTrack;
 
 import java.util.*;
 
-// line 45 "model.ump"
-// line 111 "model.ump"
+// line 46 "model.ump"
+// line 112 "model.ump"
 public class WarningNotification
 {
 
@@ -21,7 +21,7 @@ public class WarningNotification
 
   //WarningNotification Attributes
   private String id;
-  private Warning expiaryWarningLevel;
+  private Warning expiryWarningLevel;
 
   //WarningNotification Associations
   private Record record;
@@ -31,10 +31,10 @@ public class WarningNotification
   // CONSTRUCTOR
   //------------------------
 
-  public WarningNotification(String aId, Warning aExpiaryWarningLevel, Record aRecord)
+  public WarningNotification(String aId, Warning aExpiryWarningLevel, Record aRecord)
   {
     id = aId;
-    expiaryWarningLevel = aExpiaryWarningLevel;
+    expiryWarningLevel = aExpiryWarningLevel;
     boolean didAddRecord = setRecord(aRecord);
     if (!didAddRecord)
     {
@@ -55,10 +55,10 @@ public class WarningNotification
     return wasSet;
   }
 
-  public boolean setExpiaryWarningLevel(Warning aExpiaryWarningLevel)
+  public boolean setExpiryWarningLevel(Warning aExpiryWarningLevel)
   {
     boolean wasSet = false;
-    expiaryWarningLevel = aExpiaryWarningLevel;
+    expiryWarningLevel = aExpiryWarningLevel;
     wasSet = true;
     return wasSet;
   }
@@ -68,9 +68,9 @@ public class WarningNotification
     return id;
   }
 
-  public Warning getExpiaryWarningLevel()
+  public Warning getExpiryWarningLevel()
   {
-    return expiaryWarningLevel;
+    return expiryWarningLevel;
   }
   /* Code from template association_GetOne */
   public Record getRecord()
@@ -230,7 +230,7 @@ public class WarningNotification
   {
     return super.toString() + "["+
             "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "expiaryWarningLevel" + "=" + (getExpiaryWarningLevel() != null ? !getExpiaryWarningLevel().equals(this)  ? getExpiaryWarningLevel().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "expiryWarningLevel" + "=" + (getExpiryWarningLevel() != null ? !getExpiryWarningLevel().equals(this)  ? getExpiryWarningLevel().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "record = "+(getRecord()!=null?Integer.toHexString(System.identityHashCode(getRecord())):"null");
   }
 }

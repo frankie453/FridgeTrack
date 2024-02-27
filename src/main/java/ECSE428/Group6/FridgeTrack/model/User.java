@@ -3,8 +3,8 @@ package ECSE428.Group6.FridgeTrack;
 import java.util.*;
 import java.sql.Date;
 
-// line 60 "model.ump"
-// line 122 "model.ump"
+// line 61 "model.ump"
+// line 123 "model.ump"
 public class User
 {
 

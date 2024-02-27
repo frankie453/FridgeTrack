@@ -4,7 +4,7 @@ package ECSE428.Group6.FridgeTrack;
 import java.util.*;
 
 // line 2 "model.ump"
-// line 74 "model.ump"
+// line 75 "model.ump"
 public class Fridge
 {
 
@@ -184,7 +184,7 @@ public class Fridge
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Item addItem(String aName, Unit aUnit, Recipe aRecipe, ItemList aItemList, ItemCategory aItemCategory)
+  public Item addItem(String aName, Item.Unit aUnit, Recipe aRecipe, ItemList aItemList, ItemCategory aItemCategory)
   {
     return new Item(aName, aUnit, aRecipe, aItemList, aItemCategory, this);
   }

@@ -1,58 +1,79 @@
 package ECSE428.Group6.FridgeTrack;
 
+
 import java.util.*;
 
-// line 9 "model.ump"
-// line 81 "model.ump"
-public class Recipe
+// line 27 "model.ump"
+// line 96 "model.ump"
+public class ItemList
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Recipe Attributes
-  private String name;
+  //ItemList Attributes
+  private List<Item> list;
 
-  //Recipe Associations
-  private Fridge fridge;
+  //ItemList Associations
   private List<Item> items;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Recipe(String aName, Fridge aFridge)
+  public ItemList()
   {
-    name = aName;
-    boolean didAddFridge = setFridge(aFridge);
-    if (!didAddFridge)
-    {
-      throw new RuntimeException("Unable to create recipe due to fridge. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    list = new ArrayList<Item>();
     items = new ArrayList<Item>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-
-  public boolean setName(String aName)
+  /* Code from template attribute_SetMany */
+  public boolean addList(Item aList)
   {
-    boolean wasSet = false;
-    name = aName;
-    wasSet = true;
-    return wasSet;
+    boolean wasAdded = false;
+    wasAdded = list.add(aList);
+    return wasAdded;
   }
 
-  public String getName()
+  public boolean removeList(Item aList)
   {
-    return name;
+    boolean wasRemoved = false;
+    wasRemoved = list.remove(aList);
+    return wasRemoved;
   }
-  /* Code from template association_GetOne */
-  public Fridge getFridge()
+  /* Code from template attribute_GetMany */
+  public Item getList(int index)
   {
-    return fridge;
+    Item aList = list.get(index);
+    return aList;
+  }
+
+  public Item[] getList()
+  {
+    Item[] newList = list.toArray(new Item[list.size()]);
+    return newList;
+  }
+
+  public int numberOfList()
+  {
+    int number = list.size();
+    return number;
+  }
+
+  public boolean hasList()
+  {
+    boolean has = list.size() > 0;
+    return has;
+  }
+
+  public int indexOfList(Item aList)
+  {
+    int index = list.indexOf(aList);
+    return index;
   }
   /* Code from template association_GetMany */
   public Item getItem(int index)
@@ -84,45 +105,26 @@ public class Recipe
     int index = items.indexOf(aItem);
     return index;
   }
-  /* Code from template association_SetOneToMany */
-  public boolean setFridge(Fridge aFridge)
-  {
-    boolean wasSet = false;
-    if (aFridge == null)
-    {
-      return wasSet;
-    }
-
-    Fridge existingFridge = fridge;
-    fridge = aFridge;
-    if (existingFridge != null && !existingFridge.equals(aFridge))
-    {
-      existingFridge.removeRecipe(this);
-    }
-    fridge.addRecipe(this);
-    wasSet = true;
-    return wasSet;
-  }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfItems()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Item addItem(String aName, Unit aUnit, ItemList aItemList, ItemCategory aItemCategory, Fridge aFridge)
+  public Item addItem(String aName, Item.Unit aUnit, Recipe aRecipe, ItemCategory aItemCategory, Fridge aFridge)
   {
-    return new Item(aName, aUnit, this, aItemList, aItemCategory, aFridge);
+    return new Item(aName, aUnit, aRecipe, this, aItemCategory, aFridge);
   }
 
   public boolean addItem(Item aItem)
   {
     boolean wasAdded = false;
     if (items.contains(aItem)) { return false; }
-    Recipe existingRecipe = aItem.getRecipe();
-    boolean isNewRecipe = existingRecipe != null && !this.equals(existingRecipe);
-    if (isNewRecipe)
+    ItemList existingItemList = aItem.getItemList();
+    boolean isNewItemList = existingItemList != null && !this.equals(existingItemList);
+    if (isNewItemList)
     {
-      aItem.setRecipe(this);
+      aItem.setItemList(this);
     }
     else
     {
@@ -135,8 +137,8 @@ public class Recipe
   public boolean removeItem(Item aItem)
   {
     boolean wasRemoved = false;
-    //Unable to remove aItem, as it must always have a recipe
-    if (!this.equals(aItem.getRecipe()))
+    //Unable to remove aItem, as it must always have a itemList
+    if (!this.equals(aItem.getItemList()))
     {
       items.remove(aItem);
       wasRemoved = true;
@@ -178,12 +180,6 @@ public class Recipe
 
   public void delete()
   {
-    Fridge placeholderFridge = fridge;
-    this.fridge = null;
-    if(placeholderFridge != null)
-    {
-      placeholderFridge.removeRecipe(this);
-    }
     for(int i=items.size(); i > 0; i--)
     {
       Item aItem = items.get(i - 1);
@@ -194,8 +190,6 @@ public class Recipe
 
   public String toString()
   {
-    return super.toString() + "["+
-            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "fridge = "+(getFridge()!=null?Integer.toHexString(System.identityHashCode(getFridge())):"null");
+    return super.toString() + "["+ "]";
   }
 }

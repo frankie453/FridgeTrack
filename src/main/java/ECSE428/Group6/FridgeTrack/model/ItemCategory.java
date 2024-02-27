@@ -3,77 +3,46 @@ package ECSE428.Group6.FridgeTrack;
 
 import java.util.*;
 
-// line 26 "model.ump"
-// line 95 "model.ump"
-public class ItemList
+// line 41 "model.ump"
+// line 107 "model.ump"
+public class ItemCategory
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //ItemList Attributes
-  private List<Item> list;
+  //ItemCategory Attributes
+  private String name;
 
-  //ItemList Associations
+  //ItemCategory Associations
   private List<Item> items;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public ItemList()
+  public ItemCategory(String aName)
   {
-    list = new ArrayList<Item>();
+    name = aName;
     items = new ArrayList<Item>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-  /* Code from template attribute_SetMany */
-  public boolean addList(Item aList)
+
+  public boolean setName(String aName)
   {
-    boolean wasAdded = false;
-    wasAdded = list.add(aList);
-    return wasAdded;
+    boolean wasSet = false;
+    name = aName;
+    wasSet = true;
+    return wasSet;
   }
 
-  public boolean removeList(Item aList)
+  public String getName()
   {
-    boolean wasRemoved = false;
-    wasRemoved = list.remove(aList);
-    return wasRemoved;
-  }
-  /* Code from template attribute_GetMany */
-  public Item getList(int index)
-  {
-    Item aList = list.get(index);
-    return aList;
-  }
-
-  public Item[] getList()
-  {
-    Item[] newList = list.toArray(new Item[list.size()]);
-    return newList;
-  }
-
-  public int numberOfList()
-  {
-    int number = list.size();
-    return number;
-  }
-
-  public boolean hasList()
-  {
-    boolean has = list.size() > 0;
-    return has;
-  }
-
-  public int indexOfList(Item aList)
-  {
-    int index = list.indexOf(aList);
-    return index;
+    return name;
   }
   /* Code from template association_GetMany */
   public Item getItem(int index)
@@ -111,20 +80,20 @@ public class ItemList
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Item addItem(String aName, Unit aUnit, Recipe aRecipe, ItemCategory aItemCategory, Fridge aFridge)
+  public Item addItem(String aName, Item.Unit aUnit, Recipe aRecipe, ItemList aItemList, Fridge aFridge)
   {
-    return new Item(aName, aUnit, aRecipe, this, aItemCategory, aFridge);
+    return new Item(aName, aUnit, aRecipe, aItemList, this, aFridge);
   }
 
   public boolean addItem(Item aItem)
   {
     boolean wasAdded = false;
     if (items.contains(aItem)) { return false; }
-    ItemList existingItemList = aItem.getItemList();
-    boolean isNewItemList = existingItemList != null && !this.equals(existingItemList);
-    if (isNewItemList)
+    ItemCategory existingItemCategory = aItem.getItemCategory();
+    boolean isNewItemCategory = existingItemCategory != null && !this.equals(existingItemCategory);
+    if (isNewItemCategory)
     {
-      aItem.setItemList(this);
+      aItem.setItemCategory(this);
     }
     else
     {
@@ -137,8 +106,8 @@ public class ItemList
   public boolean removeItem(Item aItem)
   {
     boolean wasRemoved = false;
-    //Unable to remove aItem, as it must always have a itemList
-    if (!this.equals(aItem.getItemList()))
+    //Unable to remove aItem, as it must always have a itemCategory
+    if (!this.equals(aItem.getItemCategory()))
     {
       items.remove(aItem);
       wasRemoved = true;
@@ -180,16 +149,19 @@ public class ItemList
 
   public void delete()
   {
-    for(int i=items.size(); i > 0; i--)
+    while (items.size() > 0)
     {
-      Item aItem = items.get(i - 1);
+      Item aItem = items.get(items.size() - 1);
       aItem.delete();
+      items.remove(aItem);
     }
+    
   }
 
 
   public String toString()
   {
-    return super.toString() + "["+ "]";
+    return super.toString() + "["+
+            "name" + ":" + getName()+ "]";
   }
 }

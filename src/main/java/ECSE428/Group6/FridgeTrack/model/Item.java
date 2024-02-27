@@ -6,9 +6,15 @@ import java.util.*;
 import java.sql.Date;
 
 // line 14 "model.ump"
-// line 86 "model.ump"
+// line 87 "model.ump"
 public class Item
 {
+
+  //------------------------
+  // ENUMERATIONS
+  //------------------------
+
+  public enum Unit { G, Kg, Lb }
 
   //------------------------
   // MEMBER VARIABLES

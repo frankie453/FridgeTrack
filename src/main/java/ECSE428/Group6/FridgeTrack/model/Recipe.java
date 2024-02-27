@@ -1,30 +1,35 @@
 package ECSE428.Group6.FridgeTrack;
 
-
 import java.util.*;
 
-// line 40 "model.ump"
-// line 106 "model.ump"
-public class ItemCategory
+// line 9 "model.ump"
+// line 82 "model.ump"
+public class Recipe
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //ItemCategory Attributes
+  //Recipe Attributes
   private String name;
 
-  //ItemCategory Associations
+  //Recipe Associations
+  private Fridge fridge;
   private List<Item> items;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public ItemCategory(String aName)
+  public Recipe(String aName, Fridge aFridge)
   {
     name = aName;
+    boolean didAddFridge = setFridge(aFridge);
+    if (!didAddFridge)
+    {
+      throw new RuntimeException("Unable to create recipe due to fridge. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
     items = new ArrayList<Item>();
   }
 
@@ -43,6 +48,11 @@ public class ItemCategory
   public String getName()
   {
     return name;
+  }
+  /* Code from template association_GetOne */
+  public Fridge getFridge()
+  {
+    return fridge;
   }
   /* Code from template association_GetMany */
   public Item getItem(int index)
@@ -74,26 +84,45 @@ public class ItemCategory
     int index = items.indexOf(aItem);
     return index;
   }
+  /* Code from template association_SetOneToMany */
+  public boolean setFridge(Fridge aFridge)
+  {
+    boolean wasSet = false;
+    if (aFridge == null)
+    {
+      return wasSet;
+    }
+
+    Fridge existingFridge = fridge;
+    fridge = aFridge;
+    if (existingFridge != null && !existingFridge.equals(aFridge))
+    {
+      existingFridge.removeRecipe(this);
+    }
+    fridge.addRecipe(this);
+    wasSet = true;
+    return wasSet;
+  }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfItems()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Item addItem(String aName, Unit aUnit, Recipe aRecipe, ItemList aItemList, Fridge aFridge)
+  public Item addItem(String aName, Item.Unit aUnit, ItemList aItemList, ItemCategory aItemCategory, Fridge aFridge)
   {
-    return new Item(aName, aUnit, aRecipe, aItemList, this, aFridge);
+    return new Item(aName, aUnit, this, aItemList, aItemCategory, aFridge);
   }
 
   public boolean addItem(Item aItem)
   {
     boolean wasAdded = false;
     if (items.contains(aItem)) { return false; }
-    ItemCategory existingItemCategory = aItem.getItemCategory();
-    boolean isNewItemCategory = existingItemCategory != null && !this.equals(existingItemCategory);
-    if (isNewItemCategory)
+    Recipe existingRecipe = aItem.getRecipe();
+    boolean isNewRecipe = existingRecipe != null && !this.equals(existingRecipe);
+    if (isNewRecipe)
     {
-      aItem.setItemCategory(this);
+      aItem.setRecipe(this);
     }
     else
     {
@@ -106,8 +135,8 @@ public class ItemCategory
   public boolean removeItem(Item aItem)
   {
     boolean wasRemoved = false;
-    //Unable to remove aItem, as it must always have a itemCategory
-    if (!this.equals(aItem.getItemCategory()))
+    //Unable to remove aItem, as it must always have a recipe
+    if (!this.equals(aItem.getRecipe()))
     {
       items.remove(aItem);
       wasRemoved = true;
@@ -149,19 +178,24 @@ public class ItemCategory
 
   public void delete()
   {
-    while (items.size() > 0)
+    Fridge placeholderFridge = fridge;
+    this.fridge = null;
+    if(placeholderFridge != null)
     {
-      Item aItem = items.get(items.size() - 1);
-      aItem.delete();
-      items.remove(aItem);
+      placeholderFridge.removeRecipe(this);
     }
-    
+    for(int i=items.size(); i > 0; i--)
+    {
+      Item aItem = items.get(i - 1);
+      aItem.delete();
+    }
   }
 
 
   public String toString()
   {
     return super.toString() + "["+
-            "name" + ":" + getName()+ "]";
+            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "fridge = "+(getFridge()!=null?Integer.toHexString(System.identityHashCode(getFridge())):"null");
   }
 }

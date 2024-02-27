@@ -1,42 +1,43 @@
-package ECSE428.Group6.FridgeTrack;/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
+package ECSE428.Group6.FridgeTrack;
 
 
 import java.sql.Date;
 import java.util.*;
 
-// line 52 "model.ump"
-// line 116 "model.ump"
-public class UserFeedback
+// line 32 "model.ump"
+// line 101 "model.ump"
+public class Record
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //UserFeedback Attributes
-  private String id;
-  private String feedback;
-  private Date date;
+  //Record Attributes
+  private int id;
+  private Date enterDate;
+  private int quantity;
+  private Date expiryDate;
 
-  //UserFeedback Associations
+  //Record Associations
   private List<WarningNotification> warningNotifications;
-  private User user;
+  private Item item;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public UserFeedback(String aId, String aFeedback, Date aDate, User aUser)
+  public Record(int aId, Date aEnterDate, int aQuantity, Date aExpiryDate, Item aItem)
   {
     id = aId;
-    feedback = aFeedback;
-    date = aDate;
+    enterDate = aEnterDate;
+    quantity = aQuantity;
+    expiryDate = aExpiryDate;
     warningNotifications = new ArrayList<WarningNotification>();
-    boolean didAddUser = setUser(aUser);
-    if (!didAddUser)
+    boolean didAddItem = setItem(aItem);
+    if (!didAddItem)
     {
-      throw new RuntimeException("Unable to create userFeedback due to user. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create record due to item. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -44,7 +45,7 @@ public class UserFeedback
   // INTERFACE
   //------------------------
 
-  public boolean setId(String aId)
+  public boolean setId(int aId)
   {
     boolean wasSet = false;
     id = aId;
@@ -52,35 +53,48 @@ public class UserFeedback
     return wasSet;
   }
 
-  public boolean setFeedback(String aFeedback)
+  public boolean setEnterDate(Date aEnterDate)
   {
     boolean wasSet = false;
-    feedback = aFeedback;
+    enterDate = aEnterDate;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setDate(Date aDate)
+  public boolean setQuantity(int aQuantity)
   {
     boolean wasSet = false;
-    date = aDate;
+    quantity = aQuantity;
     wasSet = true;
     return wasSet;
   }
 
-  public String getId()
+  public boolean setExpiryDate(Date aExpiryDate)
+  {
+    boolean wasSet = false;
+    expiryDate = aExpiryDate;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getId()
   {
     return id;
   }
 
-  public String getFeedback()
+  public Date getEnterDate()
   {
-    return feedback;
+    return enterDate;
   }
 
-  public Date getDate()
+  public int getQuantity()
   {
-    return date;
+    return quantity;
+  }
+
+  public Date getExpiryDate()
+  {
+    return expiryDate;
   }
   /* Code from template association_GetMany */
   public WarningNotification getWarningNotification(int index)
@@ -113,57 +127,47 @@ public class UserFeedback
     return index;
   }
   /* Code from template association_GetOne */
-  public User getUser()
+  public Item getItem()
   {
-    return user;
+    return item;
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfWarningNotifications()
   {
     return 0;
   }
-  /* Code from template association_AddManyToManyMethod */
+  /* Code from template association_AddManyToOne */
+  public WarningNotification addWarningNotification(String aId, WarningNotification.Warning aExpiryWarningLevel)
+  {
+    return new WarningNotification(aId, aExpiryWarningLevel, this);
+  }
+
   public boolean addWarningNotification(WarningNotification aWarningNotification)
   {
     boolean wasAdded = false;
     if (warningNotifications.contains(aWarningNotification)) { return false; }
-    warningNotifications.add(aWarningNotification);
-    if (aWarningNotification.indexOfUserFeedback(this) != -1)
+    Record existingRecord = aWarningNotification.getRecord();
+    boolean isNewRecord = existingRecord != null && !this.equals(existingRecord);
+    if (isNewRecord)
     {
-      wasAdded = true;
+      aWarningNotification.setRecord(this);
     }
     else
     {
-      wasAdded = aWarningNotification.addUserFeedback(this);
-      if (!wasAdded)
-      {
-        warningNotifications.remove(aWarningNotification);
-      }
+      warningNotifications.add(aWarningNotification);
     }
+    wasAdded = true;
     return wasAdded;
   }
-  /* Code from template association_RemoveMany */
+
   public boolean removeWarningNotification(WarningNotification aWarningNotification)
   {
     boolean wasRemoved = false;
-    if (!warningNotifications.contains(aWarningNotification))
+    //Unable to remove aWarningNotification, as it must always have a record
+    if (!this.equals(aWarningNotification.getRecord()))
     {
-      return wasRemoved;
-    }
-
-    int oldIndex = warningNotifications.indexOf(aWarningNotification);
-    warningNotifications.remove(oldIndex);
-    if (aWarningNotification.indexOfUserFeedback(this) == -1)
-    {
+      warningNotifications.remove(aWarningNotification);
       wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aWarningNotification.removeUserFeedback(this);
-      if (!wasRemoved)
-      {
-        warningNotifications.add(oldIndex,aWarningNotification);
-      }
     }
     return wasRemoved;
   }
@@ -200,38 +204,37 @@ public class UserFeedback
     return wasAdded;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setUser(User aUser)
+  public boolean setItem(Item aItem)
   {
     boolean wasSet = false;
-    if (aUser == null)
+    if (aItem == null)
     {
       return wasSet;
     }
 
-    User existingUser = user;
-    user = aUser;
-    if (existingUser != null && !existingUser.equals(aUser))
+    Item existingItem = item;
+    item = aItem;
+    if (existingItem != null && !existingItem.equals(aItem))
     {
-      existingUser.removeUserFeedback(this);
+      existingItem.removeRecord(this);
     }
-    user.addUserFeedback(this);
+    item.addRecord(this);
     wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    ArrayList<WarningNotification> copyOfWarningNotifications = new ArrayList<WarningNotification>(warningNotifications);
-    warningNotifications.clear();
-    for(WarningNotification aWarningNotification : copyOfWarningNotifications)
+    for(int i=warningNotifications.size(); i > 0; i--)
     {
-      aWarningNotification.removeUserFeedback(this);
+      WarningNotification aWarningNotification = warningNotifications.get(i - 1);
+      aWarningNotification.delete();
     }
-    User placeholderUser = user;
-    this.user = null;
-    if(placeholderUser != null)
+    Item placeholderItem = item;
+    this.item = null;
+    if(placeholderItem != null)
     {
-      placeholderUser.removeUserFeedback(this);
+      placeholderItem.removeRecord(this);
     }
   }
 
@@ -240,8 +243,9 @@ public class UserFeedback
   {
     return super.toString() + "["+
             "id" + ":" + getId()+ "," +
-            "feedback" + ":" + getFeedback()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null");
+            "quantity" + ":" + getQuantity()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "enterDate" + "=" + (getEnterDate() != null ? !getEnterDate().equals(this)  ? getEnterDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "expiryDate" + "=" + (getExpiryDate() != null ? !getExpiryDate().equals(this)  ? getExpiryDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "item = "+(getItem()!=null?Integer.toHexString(System.identityHashCode(getItem())):"null");
   }
 }
