@@ -14,6 +14,6 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources", glue = "steps")
-public class CucumberTestRunner {
+ public class CucumberTestRunner {
 
 }

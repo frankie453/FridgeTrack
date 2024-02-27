@@ -36,6 +36,8 @@ public class FridgeTrackSteps {
         //throw new PendingException();
     }
 
+
+
     @Given("^I have a fridge$")
     public void i_have_a_fridge() throws Throwable {
         // Start with empty test fridge
