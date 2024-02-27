@@ -9,5 +9,5 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources")
-public class CucumberIntegrationTest {
+public class CucumberTestRunner {
 }
