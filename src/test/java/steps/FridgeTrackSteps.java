@@ -7,14 +7,14 @@ import ECSE428.Group6.FridgeTrack.model.Record;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class FridgeTrackSteps {
 
@@ -58,14 +58,16 @@ public class FridgeTrackSteps {
         Date expiry = Date.valueOf(localDate);
 
         List<Item> itemList = defaultFridge.getItems();
+        boolean found = false;
         for(Item item : itemList) {
-            if (item.getName() == name) {
+            if (item.getName().equals(name)) {
+                found = true;
                 Record r = item.getRecord(recordIDCounter-1);
-                assertEquals(r.getExpiryDate(), expiry);
-                assertEquals(r.getQuantity(), amount);
-                assertEquals(item.getUnit(), u);
+                Assertions.assertEquals(r.getExpiryDate(), expiry);
+                Assertions.assertEquals(r.getQuantity(), amount);
+                Assertions.assertEquals(item.getUnit(), u);
             }
         }
-
+        Assertions.assertTrue(found);
     }
 }

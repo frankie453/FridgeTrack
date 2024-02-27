@@ -7,7 +7,7 @@ Feature: Create Records of Multiple Foods in the Fridge with Details
   Scenario Outline: User adds new food items to the fridge with detailed information
     Given I have a fridge
     When I enter the name "<name>", dateOfPurchase "<dateOfPurchase>", amount <amount>, and unit "<unit>" for the food item.
-    Then the food item "<Name>" with a date of purchase "<dateOfPurchase>", amount <amount>, and unit "<unit>" should be added to the fridge's inventory
+    Then the food item "<name>" with a date of purchase "<dateOfPurchase>", amount <amount>, and unit "<unit>" should be added to the fridge's inventory
 
     Examples:
       | name        | dateOfPurchase | amount | unit       |
