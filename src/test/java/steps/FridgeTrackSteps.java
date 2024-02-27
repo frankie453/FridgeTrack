@@ -222,7 +222,7 @@ public class FridgeTrackSteps {
             List<String> food = Arrays.asList(map.get("List of food used").split(" \\s,\\s"));
             List<String> amount = Arrays.asList(map.get("List of Amount").split(" \\s,\\s"));
             List<String> unit = Arrays.asList(map.get("unit").split(" \\s,\\s"));
-            Recipe recipe = new Recipe(name,defaultFridge);
+            Recipe recipe = new Recipe(name,defaultFridge,null,null);
             for(String s : food){
                 for(Item i : defaultFridge.getItems()){
                     if(i.getName().equals(s)){
