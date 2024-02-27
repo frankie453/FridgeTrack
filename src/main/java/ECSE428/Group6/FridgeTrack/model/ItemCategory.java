@@ -1,5 +1,4 @@
-package ECSE428.Group6.FridgeTrack;
-
+package ECSE428.Group6.FridgeTrack.model;
 
 import java.util.*;
 

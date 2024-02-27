@@ -1,4 +1,4 @@
-package ECSE428.Group6.FridgeTrack;
+package ECSE428.Group6.FridgeTrack.model;
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
 

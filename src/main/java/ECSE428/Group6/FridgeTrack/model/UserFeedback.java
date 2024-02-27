@@ -1,6 +1,4 @@
-package ECSE428.Group6.FridgeTrack;/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
-
+package ECSE428.Group6.FridgeTrack.model;
 
 import java.sql.Date;
 import java.util.*;
