@@ -1,19 +1,19 @@
 package steps;
 
-import ECSE428.Group6.FridgeTrack.model.Fridge;
-import ECSE428.Group6.FridgeTrack.model.Item;
-import ECSE428.Group6.FridgeTrack.model.ItemCategory;
+import ECSE428.Group6.FridgeTrack.model.*;
 import ECSE428.Group6.FridgeTrack.model.Record;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.junit.experimental.categories.Categories;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -180,6 +180,85 @@ public class FridgeTrackSteps {
     @Then("^no items should be removed from the inventory with still (\\d+) items$")
     public void no_items_should_be_removed_from_the_inventory_with_still_items(int remainCount) {
         assertEquals(remainCount, defaultFridge.numberOfItems());
+    }
+
+    @Given("^I want to store a new recipe$")
+    public void i_want_to_store_a_new_recipe() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        defaultFridge = new Fridge("My Fridge");
+    }
+
+    @Given("^the following item category with <name>$")
+    public void the_following_item_category_with_name(DataTable arg1) throws Throwable {
+        List<Map<String, String>> list = arg1.asMaps(String.class, String.class);
+        for (Map<String, String> map : list) {
+            String name = map.get("name");
+            ItemCategory category = new ItemCategory(name);
+        }
+        // List<YourType>, List<List<E>>, List<Map<K,V>> or Map<K,V>.
+        // E,K,V must be a scalar (String, Integer, Date, enum etc)
+
+    }
+
+    @Given("^the following food items with <item_name>, <item_id>,<item_type>,<expiry_date>  is in fridge$")
+    public void the_following_food_items_with_item_name_item_id_item_type_expiry_date_is_in_fridge(DataTable arg1) throws Throwable {
+        List<Map<String, String>> list = arg1.asMaps(String.class, String.class);
+         // Assuming a new fridge for each scenario
+        for (Map<String, String> map : list) {
+            String name = map.get("item_name");
+            String type = map.get("item_type");
+            LocalDate localDate = LocalDate.parse(map.get("expiry_date"));
+            Date expiry = Date.valueOf(localDate);
+            // Assuming a default unit as we just doing deletion here
+            defaultFridge.addItem(new Item(name, Item.Unit.PIECE, null, new ItemCategory(type), defaultFridge));
+        }
+    }
+
+    @When("^I enter the <recipe name >, <List of food used>, <List of Amount>, and <List of unit> for the recipe\\.$")
+    public void i_enter_the_recipe_name_List_of_food_used_List_of_Amount_and_List_of_unit_for_the_recipe(DataTable arg1) throws Throwable {
+        List<Map<String, String>> list = arg1.asMaps(String.class, String.class);
+        for (Map<String, String> map : list){
+            String name = map.get("recipe name");
+            List<String> food = Arrays.asList(map.get("List of food used").split(" \\s,\\s"));
+            List<String> amount = Arrays.asList(map.get("List of Amount").split(" \\s,\\s"));
+            List<String> unit = Arrays.asList(map.get("unit").split(" \\s,\\s"));
+            Recipe recipe = new Recipe(name,defaultFridge);
+            for(String s : food){
+                for(Item i : defaultFridge.getItems()){
+                    if(i.getName().equals(s)){
+                        recipe.addItem(i);
+                    }
+                }
+            }
+
+
+            defaultFridge.addRecipe(recipe);
+        }
+    }
+
+    @When("^I save the recipe$")
+    public void i_save_the_recipe() throws Throwable {
+        /**
+         * Need DB
+         */
+    }
+
+    @Then("^the recipe with name <name> should be added to the fridge's inventory with its  <List of food used>, <List of Amount>, and <List of unit> \\.$")
+    public void the_recipe_with_name_name_should_be_added_to_the_fridge_s_inventory_with_its_List_of_food_used_List_of_Amount_and_List_of_unit(DataTable arg1) throws Throwable {
+        List<Map<String, String>> list = arg1.asMaps(String.class, String.class);
+
+        for (Map<String, String> map : list){
+            String name = map.get("recipe name");
+            for (Recipe recipe: defaultFridge.getRecipes()){
+                if(recipe.getName().equals(name)){
+
+                    for( int j = 0; j < recipe.getItems().size(); j++ ){
+                        Assertions.assertEquals(recipe.getItems().get(j).getName(), Arrays.asList(map.get("List of food used").split(" \\s,\\s")).get(j));
+                    }
+                    Assertions.assertTrue(true);
+                }
+            }
+        }
     }
 }
 
