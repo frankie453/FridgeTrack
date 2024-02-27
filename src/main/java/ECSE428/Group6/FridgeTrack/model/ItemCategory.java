@@ -79,9 +79,9 @@ public class ItemCategory
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Item addItem(String aName, Item.Unit aUnit, Recipe aRecipe, ItemList aItemList, Fridge aFridge)
+  public Item addItem(String aName, Item.Unit aUnit, Recipe aRecipe, Fridge aFridge)
   {
-    return new Item(aName, aUnit, aRecipe, aItemList, this, aFridge);
+    return new Item(aName, aUnit, aRecipe, this, aFridge);
   }
 
   public boolean addItem(Item aItem)

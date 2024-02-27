@@ -183,9 +183,9 @@ public class Fridge
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Item addItem(String aName, Item.Unit aUnit, Recipe aRecipe, ItemList aItemList, ItemCategory aItemCategory)
+  public Item addItem(String aName, Item.Unit aUnit, Recipe aRecipe, ItemCategory aItemCategory)
   {
-    return new Item(aName, aUnit, aRecipe, aItemList, aItemCategory, this);
+    return new Item(aName, aUnit, aRecipe, aItemCategory, this);
   }
 
   public boolean addItem(Item aItem)

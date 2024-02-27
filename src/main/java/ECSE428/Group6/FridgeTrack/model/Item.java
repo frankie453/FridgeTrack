@@ -14,7 +14,7 @@ public class Item
   // ENUMERATIONS
   //------------------------
 
-  public enum Unit { G, Kg, Lb }
+  public enum Unit { GRAM, MILLILITER, PIECE}
 
   //------------------------
   // MEMBER VARIABLES
@@ -27,7 +27,6 @@ public class Item
   //Item Associations
   private Recipe recipe;
   private List<Record> records;
-  private ItemList itemList;
   private ItemCategory itemCategory;
   private Fridge fridge;
 
@@ -35,21 +34,17 @@ public class Item
   // CONSTRUCTOR
   //------------------------
 
-  public Item(String aName, Unit aUnit, Recipe aRecipe, ItemList aItemList, ItemCategory aItemCategory, Fridge aFridge)
+  public Item(String aName, Unit aUnit, Recipe aRecipe, ItemCategory aItemCategory, Fridge aFridge)
   {
     name = aName;
     unit = aUnit;
-    boolean didAddRecipe = setRecipe(aRecipe);
-    if (!didAddRecipe)
-    {
-      throw new RuntimeException("Unable to create item due to recipe. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    // Commented out due to an Item do not need a recipe to exist
+//    boolean didAddRecipe = setRecipe(aRecipe);
+//    if (!didAddRecipe)
+//    {
+//      throw new RuntimeException("Unable to create item due to recipe. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+//    }
     records = new ArrayList<Record>();
-    boolean didAddItemList = setItemList(aItemList);
-    if (!didAddItemList)
-    {
-      throw new RuntimeException("Unable to create item due to itemList. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
     boolean didAddItemCategory = setItemCategory(aItemCategory);
     if (!didAddItemCategory)
     {
@@ -125,11 +120,6 @@ public class Item
   {
     int index = records.indexOf(aRecord);
     return index;
-  }
-  /* Code from template association_GetOne */
-  public ItemList getItemList()
-  {
-    return itemList;
   }
   /* Code from template association_GetOne */
   public ItemCategory getItemCategory()
@@ -233,25 +223,6 @@ public class Item
     return wasAdded;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setItemList(ItemList aItemList)
-  {
-    boolean wasSet = false;
-    if (aItemList == null)
-    {
-      return wasSet;
-    }
-
-    ItemList existingItemList = itemList;
-    itemList = aItemList;
-    if (existingItemList != null && !existingItemList.equals(aItemList))
-    {
-      existingItemList.removeItem(this);
-    }
-    itemList.addItem(this);
-    wasSet = true;
-    return wasSet;
-  }
-  /* Code from template association_SetOneToMany */
   public boolean setItemCategory(ItemCategory aItemCategory)
   {
     boolean wasSet = false;
@@ -303,12 +274,6 @@ public class Item
       Record aRecord = records.get(i - 1);
       aRecord.delete();
     }
-    ItemList placeholderItemList = itemList;
-    this.itemList = null;
-    if(placeholderItemList != null)
-    {
-      placeholderItemList.removeItem(this);
-    }
     ItemCategory placeholderItemCategory = itemCategory;
     this.itemCategory = null;
     if(placeholderItemCategory != null)
@@ -330,7 +295,6 @@ public class Item
             "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "unit" + "=" + (getUnit() != null ? !getUnit().equals(this)  ? getUnit().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "recipe = "+(getRecipe()!=null?Integer.toHexString(System.identityHashCode(getRecipe())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "itemList = "+(getItemList()!=null?Integer.toHexString(System.identityHashCode(getItemList())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "itemCategory = "+(getItemCategory()!=null?Integer.toHexString(System.identityHashCode(getItemCategory())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "fridge = "+(getFridge()!=null?Integer.toHexString(System.identityHashCode(getFridge())):"null");
   }
