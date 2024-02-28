@@ -29,6 +29,11 @@ public class Item
   private List<Record> records;
   private ItemCategory itemCategory;
   private Fridge fridge;
+  private String itemName;
+  private String itemId; // Assuming itemId is a String. Adjust type if needed.
+  private Date expiryDate;
+  private int amount;
+
 
   //------------------------
   // CONSTRUCTOR
@@ -57,6 +62,12 @@ public class Item
     }
   }
 
+  // Overloaded constructor example to fit the new instantiation line (hypothetical, based on the provided line)
+  public Item(String itemName,  int amount, Unit unit) {
+    this.itemName = itemName;
+    this.amount = amount;
+    this.unit = unit;
+  }
   //------------------------
   // INTERFACE
   //------------------------
@@ -287,7 +298,6 @@ public class Item
       placeholderFridge.removeItem(this);
     }
   }
-
 
   public String toString()
   {

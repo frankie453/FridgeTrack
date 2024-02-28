@@ -28,7 +28,9 @@ public class Fridge
     recipes = new ArrayList<Recipe>();
     items = new ArrayList<Item>();
   }
+  public Fridge(){
 
+  }
   //------------------------
   // INTERFACE
   //------------------------
