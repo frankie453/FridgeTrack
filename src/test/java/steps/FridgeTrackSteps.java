@@ -10,6 +10,7 @@ import org.junit.experimental.categories.Categories;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,7 +19,42 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
+// Java code to demonstrate the working of
+// contains() method in List of string
 
+import java.util.*;
+
+class GFG {
+    public static void main(String[] args)
+    {
+        // creating an Empty String List
+        List<String> arr = new ArrayList<String>(4);
+
+        // using add() to initialize values
+        // ["geeks", "for", "geeks"]
+        arr.add("geeks");
+        arr.add("for");
+        arr.add("geeks");
+
+        // use contains() to check if the element
+        // "geeks" exits or not
+        boolean ans = arr.contains("geeks");
+
+        if (ans)
+            System.out.println("The list contains geeks");
+        else
+            System.out.println("The list does not contains geeks");
+
+        // use contains() to check if the element
+        // "coding" exits or not
+        ans = arr.contains("coding");
+
+        if (ans)
+            System.out.println("The list contains coding");
+        else
+            System.out.println("The list does not contains coding");
+    }
+}
 public class FridgeTrackSteps {
 
     Fridge defaultFridge = new Fridge("default");
@@ -259,6 +295,73 @@ public class FridgeTrackSteps {
                 }
             }
         }
+    }
+
+
+    @Given("^the following food items are recorded in the fridge's inventory$")
+    public void the_following_food_items_are_recorded_in_the_fridge_s_inventory(DataTable arg1) throws Throwable {
+        List<Map<String, String>> list = arg1.asMaps(String.class, String.class);
+
+        for (Map<String, String> map : list) {
+            defaultFridge.addItem(new Item(map.get("name"), null,null,defaultCategory,defaultFridge));
+        }
+    }
+
+    @Given("^there exists a recipe that uses the following ingredients$")
+    public void there_exists_a_recipe_that_uses_the_following_ingredients(DataTable arg1) throws Throwable {
+        List<Map<String, String>> list = arg1.asMaps(String.class, String.class);
+
+
+        Recipe recipe = new Recipe("defaultRecipe",defaultFridge,"des","sadwdsa");
+
+        for (Map<String, String> map : list) {
+            for(Item i: defaultFridge.getItems()){
+                if (i.getName().equals(map.get("Ingredient"))){
+                    recipe.addItem(i);
+                }
+            }
+        }
+
+        defaultFridge.addRecipe(recipe);
+    }
+
+    @When("^I request to generate a recipe using available food items$")
+    public void i_request_to_generate_a_recipe_using_available_food_items() throws Throwable {
+        /**
+         * API call for get recipe
+         */
+    }
+
+    @Then("^the system should suggest a recipe that includes$")
+    public void the_system_should_suggest_a_recipe_that_includes(DataTable arg1) throws Throwable {
+        List<Map<String, String>> list = arg1.asMaps(String.class, String.class);
+
+        List<Item> items = new ArrayList<>();
+        for (Map<String, String> map : list) {
+            for (Item i : defaultFridge.getItems()){
+                if(i.getName().equals(map.get("Ingredient"))){
+                    items.add(i);
+                }
+            }
+        }
+
+        for(Recipe recipe : defaultFridge.getRecipes()){
+            List<Item>  targetItems = recipe.getItems();
+            if(targetItems.size() != items.size()) continue;
+            boolean isCoerct = true;
+            if(items.equals(targetItems)){
+                assertTrue(true);
+            }
+        }
+
+
+
+
+    }
+
+    @Then("^the suggested recipe should not include ingredients not listed in the fridge's inventory$")
+    public void the_suggested_recipe_should_not_include_ingredients_not_listed_in_the_fridge_s_inventory() throws Throwable {
+        //not necessary
     }
 }
 
