@@ -157,7 +157,6 @@ public class ItemCategory
     
   }
 
-
   public String toString()
   {
     return super.toString() + "["+
