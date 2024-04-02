@@ -1,7 +1,12 @@
 <template>
+  <div>
+    <!-- Search Input -->
+    <input type="text" v-model="searchTerm" placeholder="Search for food items..." class="search-box">
+
     <div class="fridge">
+      <!-- Loop over filteredFoodItems instead of foodItems -->
       <FoodItem
-        v-for="item in foodItems"
+        v-for="item in filteredFoodItems"
         :key="item.id"
         :itemId="item.id"
         :name="item.name"
@@ -9,7 +14,9 @@
         @deleteItem="(itemId) => deleteFoodItem(itemId)" 
       />
     </div>
-  </template>
+  </div>
+</template>
+
   
   <script>
   import FoodItem from './FoodItem.vue';
@@ -46,16 +53,20 @@
         searchTerm: '',
       };
     },
-    methods: {
-      searchItems() {
-        
-      },
-      deleteFoodItem(itemId) {
-        this.foodItems = this.foodItems.filter(item => item.id !== itemId);
-      },
+    computed: {
+    filteredFoodItems() {
+      if (!this.searchTerm) return this.foodItems; // Return all items if searchTerm is empty
+      return this.foodItems.filter((item) => 
+        item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+  },
+  methods: {
+    deleteFoodItem(itemId) {
+      this.foodItems = this.foodItems.filter(item => item.id !== itemId);
     },
-
-  };
+  },
+};
   </script>
   
   <style>
