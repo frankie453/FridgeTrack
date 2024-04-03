@@ -2,7 +2,7 @@
     <div class="recipe-page">
       <h1 class="recipe-title">{{ recipe.title }}</h1>
       <div class="recipe-details">
-        <img :src="recipe.image" alt="Recipe Image" class="recipe-image"/>
+        <img src="../assets/recipe-example.jpeg" alt="Recipe Image" class="recipe-image"/>
         <div class="recipe-meta">
           <h2>Ingredients</h2>
           <ul>
@@ -11,7 +11,7 @@
             </li>
           </ul>
           <h2>Instructions</h2>
-          <p>{{ recipe.instructions }}</p>
+          <pre>{{ recipe.instructions }}</pre>
         </div>
       </div>
     </div>
@@ -23,15 +23,23 @@
     data() {
       return {
         recipe: {
-          title: 'Chocolate Chip Cookies',
-          image: 'path-to-your-image.jpg', // Replace with your image path
+          title: 'Crème Brûlée',
+          image: '../assets/logo.png',
           ingredients: [
-            '1 cup granulated sugar',
-            '2 cups all-purpose flour',
-            // Add more ingredients
+            '2 cups heavy cream',
+            '1 vanilla bean, split and scraped (or 1 teaspoon vanilla extract)',
+            '5 egg yolks',
+            '1/2 cup granulated sugar, plus more for the caramelized topping',
+            'Hot water (for the water bath)',
           ],
-          instructions: 'Preheat your oven to 350°F (175°C). ...' // Add your instructions
-        }
+          instructions: `Preheat: Oven to 325°F.
+Heat Cream: Warm cream and vanilla in a pot until hot, not boiling.
+Mix: Whisk yolks and 1/2 cup sugar until thick.
+Combine: Gradually mix hot cream into yolks.
+Strain: Pour through a sieve to remove lumps.
+Bake: Pour into ramekins in a water bath. Bake 40-45 min until set but wobbly.
+Chill: Cool, then refrigerate for 2 hours.
+Caramelize: Sprinkle sugar on top and torch until caramelized.`}
       };
     }
   }
@@ -58,6 +66,7 @@
   .recipe-image {
     max-width: 100%;
     border-radius: 10px;
+    width: 40%;
   }
   
   .recipe-meta {

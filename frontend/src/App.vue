@@ -20,7 +20,7 @@
 <script>
 import Fridge from './components/Fridge.vue'
 import Recipe from './components/Recipe.vue'
-import FoodRecord from './components/FoodRecord.vue' // Import FoodRecord component
+import FoodRecord from './components/FoodRecord.vue'
 import ScanPage from './components/ScanPage.vue'
 import RecipeManager from './components/RecipeManager.vue' 
 import GenerateRecipe from './components/GenerateRecipe.vue'
@@ -37,8 +37,18 @@ export default {
   data() {
     return {
       // Initially show the Fridge component
-      currentComponent: 'Fridge'
+      currentComponent: 'Fridge',
+      pageTitle: 'FridgeTrack'
     }
+  },
+  mounted() {
+    document.title = this.pageTitle;
+    this.changeFavicon('./assets/favicon.ico');
+  },
+  watch: {
+    pageTitle(newTitle) {
+      document.title = newTitle;
+    },
   },
   methods: {
     goToRecipe() {
@@ -60,9 +70,6 @@ export default {
     goToRecipeManager() { // New method
       this.currentComponent = 'RecipeManager'; // Switch to RecipeManager component
     },
-    goToGenerateRecipe() {
-      this.currentComponent = 'GenerateRecipe';
-    }
   }
 }
 </script>
