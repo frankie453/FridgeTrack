@@ -12,6 +12,7 @@
       <button @click="goBackToMain">Back to Main</button>
       <!-- Button to go to the ScanPage component -->
       <button @click="goToScanPage">Scan Page</button>
+      <button @click="goToRecipeManager">Manage Recipes</button>
     </div>
     <!-- Dynamic component based on currentComponent -->
     <component :is="currentComponent"></component>
@@ -24,14 +25,15 @@ import Fridge from './components/Fridge.vue'
 import Recipe from './components/Recipe.vue'
 import FoodRecord from './components/FoodRecord.vue' // Import FoodRecord component
 import ScanPage from './components/ScanPage.vue'
-
+import RecipeManager from './components/RecipeManager.vue' 
 export default {
   name: 'App',
   components: {
     Fridge,
     Recipe,
     FoodRecord,
-    ScanPage
+    ScanPage,
+    RecipeManager
   },
   data() {
     return {
@@ -55,6 +57,9 @@ export default {
     goToScanPage() {
       // Change the component to ScanPage
       this.currentComponent = 'ScanPage';
+    },
+    goToRecipeManager() { // New method
+      this.currentComponent = 'RecipeManager'; // Switch to RecipeManager component
     },
   }
 }
