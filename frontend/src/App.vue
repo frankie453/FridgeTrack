@@ -1,21 +1,68 @@
 <template>
-  <div class="search-container">
-      <input type="text" class="search-box" placeholder="Search items...">
-      <button class="search-icon-btn">
-        <!-- You can use an SVG or a font icon for the search icon -->
-        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      </button>
+  <div id="app">
+    <div class="logo">
+      <img class="image" src="./assets/logo.png" alt="Logo" />
     </div>
-  <Fridge />
+    <div class="navigation-container">
+      <button @click="goBackToMain">Fridge</button>
+      <button @click="goToFoodRecord">Record New Item</button>
+      <button @click="goToScanPage">Scan Page</button>
+      <button @click="goToRecipe">Recipe</button>
+      <button @click="goToRecipeManager">Custom Recipes</button>
+      <button @click="goToGenerateRecipe">Generate Recipes</button>
+    </div>
+    <!-- Dynamic component based on currentComponent -->
+    <component :is="currentComponent"></component>
+  </div>
 </template>
+
 
 <script>
 import Fridge from './components/Fridge.vue'
-
+import Recipe from './components/Recipe.vue'
+import FoodRecord from './components/FoodRecord.vue' // Import FoodRecord component
+import ScanPage from './components/ScanPage.vue'
+import RecipeManager from './components/RecipeManager.vue' 
+import GenerateRecipe from './components/GenerateRecipe.vue'
 export default {
   name: 'App',
   components: {
-    Fridge
+    Fridge,
+    Recipe,
+    FoodRecord,
+    ScanPage,
+    RecipeManager,
+    GenerateRecipe
+  },
+  data() {
+    return {
+      // Initially show the Fridge component
+      currentComponent: 'Fridge'
+    }
+  },
+  methods: {
+    goToRecipe() {
+      // Change the component to Recipe
+      this.currentComponent = 'Recipe';
+    },
+    goToFoodRecord() {
+      // Change the component to FoodRecord
+      this.currentComponent = 'FoodRecord';
+    },
+    goBackToMain() {
+      // Reset the component to Fridge (or your main component)
+      this.currentComponent = 'Fridge';
+    },
+    goToScanPage() {
+      // Change the component to ScanPage
+      this.currentComponent = 'ScanPage';
+    },
+    goToRecipeManager() { // New method
+      this.currentComponent = 'RecipeManager'; // Switch to RecipeManager component
+    },
+    goToGenerateRecipe() {
+      this.currentComponent = 'GenerateRecipe';
+    }
   }
 }
 </script>
@@ -29,58 +76,63 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-/* Add/modify in <style> of Fridge.vue */
-/* Default to 8 columns for larger screens (PCs) */
-.fridge {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr); /* 8 columns */
-  gap: 20px;
-  padding: 20px;
-}
-@media (max-width: 1200px) {
-  .fridge {
-    grid-template-columns: repeat(4, 1fr); /* Adjust to 2 columns for smaller screens */
-  }
+.image{
+  display: block;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 10%;
+  height: auto;
+  border-radius: 10%;
 }
 
-/* Use a media query for smaller screens (phones) */
-@media (max-width: 900px) {
-  .fridge {
-    grid-template-columns: repeat(2, 1fr); /* Adjust to 2 columns for smaller screens */
-  }
-}
-.search-container {
+.navigation-container {
   display: flex;
   justify-content: center;
   margin: 20px;
+  flex-wrap: wrap;
 }
 
-.search-box {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 20px 0 0 20px; /* Rounded left corners */
-  outline: none; /* Removes the outline */
-  width: 300px; /* Adjust based on your design */
-}
-
-.search-icon-btn {
-  padding: 10px;
-  background: #ddd;
+/* Adjusted margins for more space */
+button {
+  padding: 10px 15px;
+  margin: 0 10px;
+  background-color: #11a7c1;
+  color: white;
   border: none;
-  border-radius: 0 20px 20px 0; /* Rounded right corners */
-  cursor: pointer; /* Changes cursor to pointer on hover */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
-.search-icon {
-  height: 20px; /* Adjust icon size */
-  width: 20px; /* Adjust icon size */
-  fill: #333; /* Icon color */
-}
-
-/* Optional: Add hover effect for the button */
-.search-icon-btn:hover {
+button:hover {
   background: #ccc;
+}
+
+/* Fridge styles */
+.fridge {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr); 
+  gap: 20px;
+  padding: 20px;
+}
+
+@media (max-width: 1200px) {
+  .fridge {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .image{
+    width: 20%;
+  }
+}
+
+@media (max-width: 900px) {
+  .fridge {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .image{
+    width: 30%;
+  }
 }
 
 </style>
