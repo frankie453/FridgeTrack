@@ -1,12 +1,17 @@
 <template>
   <div id="app">
+    <div class="logo">
+      <img class="image" src="./assets/logo.png" alt="Logo" />
+    </div>
     <div class="navigation-container">
       <!-- Button to switch to Recipe component -->
-      <button @click="goToRecipe">Go to Recipe</button>
+      <button @click="goToRecipe">Recipe</button>
       <!-- Button to switch to FoodRecord component -->
       <button @click="goToFoodRecord">Record New Item</button>
       <!-- Button to go back to the main component (Fridge) -->
       <button @click="goBackToMain">Back to Main</button>
+      <!-- Button to go to the ScanPage component -->
+      <button @click="goToScanPage">Scan Page</button>
     </div>
     <!-- Dynamic component based on currentComponent -->
     <component :is="currentComponent"></component>
@@ -18,13 +23,15 @@
 import Fridge from './components/Fridge.vue'
 import Recipe from './components/Recipe.vue'
 import FoodRecord from './components/FoodRecord.vue' // Import FoodRecord component
+import ScanPage from './components/ScanPage.vue'
 
 export default {
   name: 'App',
   components: {
     Fridge,
     Recipe,
-    FoodRecord // Register FoodRecord component
+    FoodRecord,
+    ScanPage
   },
   data() {
     return {
@@ -44,7 +51,11 @@ export default {
     goBackToMain() {
       // Reset the component to Fridge (or your main component)
       this.currentComponent = 'Fridge';
-    }
+    },
+    goToScanPage() {
+      // Change the component to ScanPage
+      this.currentComponent = 'ScanPage';
+    },
   }
 }
 </script>
@@ -58,6 +69,15 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+.image{
+  display: block;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 10%;
+  height: auto;
+  border-radius: 10%;
+}
 
 .navigation-container {
   display: flex;
@@ -70,11 +90,12 @@ export default {
 button {
   padding: 10px 15px; /* Adjusted padding for better button size */
   margin: 0 10px; /* Increased space between buttons */
-  background: #ddd;
+  background-color: #11a7c1;
+  color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background 0.3s ease; /* Smooth background color transition on hover */
+  transition: background-color 0.3s ease-in-out;
 }
 
 button:hover {
@@ -93,11 +114,17 @@ button:hover {
   .fridge {
     grid-template-columns: repeat(4, 1fr); /* Adjust to 4 columns for smaller screens */
   }
+  .image{
+    width: 20%;
+  }
 }
 
 @media (max-width: 900px) {
   .fridge {
     grid-template-columns: repeat(2, 1fr); /* Adjust to 2 columns for smaller screens */
+  }
+  .image{
+    width: 30%;
   }
 }
 
