@@ -308,4 +308,9 @@ public class Item
             "  " + "itemCategory = "+(getItemCategory()!=null?Integer.toHexString(System.identityHashCode(getItemCategory())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "fridge = "+(getFridge()!=null?Integer.toHexString(System.identityHashCode(getFridge())):"null");
   }
+
+  public static List<Item> sortByExpiryDate(List<Item> items) {
+    items.sort(Comparator.comparing(item -> item.getRecord(0).getExpiryDate()));
+    return items;
+  }
 }

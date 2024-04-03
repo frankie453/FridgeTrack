@@ -61,6 +61,7 @@ public class FridgeTrackSteps {
     ItemCategory defaultCategory = new ItemCategory("default");
     int recordIDCounter = 0;
     Date sysDate = Date.valueOf(LocalDate.parse("2024-01-01"));
+    List<Item> sorted = new ArrayList<>();
 
     @Test
     void contextLoads() {
@@ -356,12 +357,56 @@ public class FridgeTrackSteps {
 
 
 
-
     }
 
     @Then("^the suggested recipe should not include ingredients not listed in the fridge's inventory$")
     public void the_suggested_recipe_should_not_include_ingredients_not_listed_in_the_fridge_s_inventory() throws Throwable {
         //not necessary
     }
+
+
+    @Given("^the following food items exist:$")
+    public void the_following_food_items_exist(DataTable dataTable) throws Throwable {
+        defaultFridge = new Fridge("default");
+        List<Map<String, String>> itemList = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : itemList) {
+            String name = row.get("name");
+            recordIDCounter ++;
+            int id = recordIDCounter;
+            Date enterDate = Date.valueOf(LocalDate.parse("2019-01-01"));
+            int quantity = 1;
+            Date expiryDate = Date.valueOf(LocalDate.parse(row.get("expirationDate")));
+
+            Item item = new Item(name, Item.Unit.GRAM, null, defaultCategory, defaultFridge);
+            defaultFridge.addItem(item);
+            item.addRecord(id, enterDate, quantity, expiryDate);
+        }
+    }
+
+    @When("^I view the food list$")
+    public void i_view_the_food_list() throws Throwable {
+        List<Item> items = new ArrayList<>(defaultFridge.getItems());
+        sorted = Item.sortByExpiryDate(items);
+    }
+
+    @Then("^I should see the following food items with order of the closest expirationDate$")
+    public void i_should_see_the_following_food_items_with_their_in_order_of_the_closest(DataTable dataTable) throws Throwable {
+        // Get the expected items and expiry dates from the Examples table
+        List<Map<String, String>> expectedItems = dataTable.asMaps(String.class, String.class);
+
+        // Check if the number of items matches
+        assertEquals("Number of items does not match expected.", expectedItems.size(), sorted.size());
+
+        // Iterate through the expected items and compare with actual sorted items
+        for (int i = 0; i < expectedItems.size(); i++) {
+            Map<String, String> expectedItem = expectedItems.get(i);
+            Item actualItem = sorted.get(i);
+
+            // Check if the name and expiry date match
+            assertEquals("Item name does not match expected.", expectedItem.get("name"), actualItem.getName());
+            assertEquals("Expiry date does not match expected.", expectedItem.get("expirationDate"), actualItem.getRecord(0).getExpiryDate().toString());
+    }
+}
+
 }
 
