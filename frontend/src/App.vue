@@ -9,6 +9,7 @@
       <button @click="goToScanPage">Scan Page</button>
       <button @click="goToRecipe">Recipe</button>
       <button @click="goToRecipeManager">Custom Recipes</button>
+      <button @click="goToGenerateRecipe">Generate Recipes</button>
     </div>
     <!-- Dynamic component based on currentComponent -->
     <component :is="currentComponent"></component>
@@ -22,6 +23,7 @@ import Recipe from './components/Recipe.vue'
 import FoodRecord from './components/FoodRecord.vue' // Import FoodRecord component
 import ScanPage from './components/ScanPage.vue'
 import RecipeManager from './components/RecipeManager.vue' 
+import GenerateRecipe from './components/GenerateRecipe.vue'
 export default {
   name: 'App',
   components: {
@@ -29,7 +31,8 @@ export default {
     Recipe,
     FoodRecord,
     ScanPage,
-    RecipeManager
+    RecipeManager,
+    GenerateRecipe
   },
   data() {
     return {
@@ -57,6 +60,9 @@ export default {
     goToRecipeManager() { // New method
       this.currentComponent = 'RecipeManager'; // Switch to RecipeManager component
     },
+    goToGenerateRecipe() {
+      this.currentComponent = 'GenerateRecipe';
+    }
   }
 }
 </script>
