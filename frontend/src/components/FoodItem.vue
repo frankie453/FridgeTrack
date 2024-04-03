@@ -29,14 +29,14 @@
   border-radius: 5px;
   padding: 10px;
   margin: 10px;
-  transition: all 0.3s ease-in-out; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
 
 .food-item:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
-  transform: translateY(-5px);
-  border-color: #aaa; 
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+  transform: translateY(-5px); /* Slightly raise the item */
+  border-color: #aaa; /* Optional: change border color on hover */
 }
   </style>
   
