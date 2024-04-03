@@ -4,15 +4,11 @@
       <img class="image" src="./assets/logo.png" alt="Logo" />
     </div>
     <div class="navigation-container">
-      <!-- Button to go back to the main component (Fridge) -->
       <button @click="goBackToMain">Fridge</button>
-      <!-- Button to switch to Recipe component -->
-      <button @click="goToRecipe">Recipe</button>
-      <!-- Button to switch to FoodRecord component -->
       <button @click="goToFoodRecord">Record New Item</button>
-      <!-- Button to go to the ScanPage component -->
       <button @click="goToScanPage">Scan Page</button>
-      <button @click="goToRecipeManager">Manage Recipes</button>
+      <button @click="goToRecipe">Recipe</button>
+      <button @click="goToRecipeManager">Custom Recipes</button>
     </div>
     <!-- Dynamic component based on currentComponent -->
     <component :is="currentComponent"></component>
