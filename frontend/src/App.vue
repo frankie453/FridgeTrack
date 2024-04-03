@@ -4,12 +4,12 @@
       <img class="image" src="./assets/logo.png" alt="Logo" />
     </div>
     <div class="navigation-container">
+      <!-- Button to go back to the main component (Fridge) -->
+      <button @click="goBackToMain">Fridge</button>
       <!-- Button to switch to Recipe component -->
       <button @click="goToRecipe">Recipe</button>
       <!-- Button to switch to FoodRecord component -->
       <button @click="goToFoodRecord">Record New Item</button>
-      <!-- Button to go back to the main component (Fridge) -->
-      <button @click="goBackToMain">Back to Main</button>
       <!-- Button to go to the ScanPage component -->
       <button @click="goToScanPage">Scan Page</button>
       <button @click="goToRecipeManager">Manage Recipes</button>
@@ -88,13 +88,13 @@ export default {
   display: flex;
   justify-content: center;
   margin: 20px;
-  flex-wrap: wrap; /* Allows buttons to wrap on small screens */
+  flex-wrap: wrap;
 }
 
 /* Adjusted margins for more space */
 button {
-  padding: 10px 15px; /* Adjusted padding for better button size */
-  margin: 0 10px; /* Increased space between buttons */
+  padding: 10px 15px;
+  margin: 0 10px;
   background-color: #11a7c1;
   color: white;
   border: none;
@@ -110,14 +110,14 @@ button:hover {
 /* Fridge styles */
 .fridge {
   display: grid;
-  grid-template-columns: repeat(8, 1fr); /* 8 columns */
+  grid-template-columns: repeat(8, 1fr); 
   gap: 20px;
   padding: 20px;
 }
 
 @media (max-width: 1200px) {
   .fridge {
-    grid-template-columns: repeat(4, 1fr); /* Adjust to 4 columns for smaller screens */
+    grid-template-columns: repeat(4, 1fr);
   }
   .image{
     width: 20%;
@@ -126,7 +126,7 @@ button:hover {
 
 @media (max-width: 900px) {
   .fridge {
-    grid-template-columns: repeat(2, 1fr); /* Adjust to 2 columns for smaller screens */
+    grid-template-columns: repeat(2, 1fr);
   }
   .image{
     width: 30%;
